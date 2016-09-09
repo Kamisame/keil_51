@@ -1,0 +1,201 @@
+C51 COMPILER V6.12  _____ü__                                                               07/02/2016 16:08:51 PAGE 1   
+
+
+C51 COMPILER V6.12, COMPILATION OF MODULE _____ü__
+OBJECT MODULE PLACED IN .\¶ÀÁ¢¼üÅÌ.OBJ
+COMPILER INVOKED BY: F:\keil\C51\BIN\C51.EXE .\¶ÀÁ¢¼üÅÌ.c DEBUG OBJECTEXTEND
+
+stmt level    source
+
+   1          #include<reg51.h>
+   2          #define uchar unsigned char
+   3          #define uint unsigned int
+   4          
+   5          uchar code table[]={
+   6          0x3f,0x06,0x5b,0x4f,0x66,0x6d,
+   7          0x7d,0x07,0x7f,0x6f,0x77,0x7c,
+   8          0x39,0x5e,0x79,0x71};
+   9          
+  10          void delayms(uint xms)
+  11          {
+  12   1        uint i,j;
+  13   1        for(i=xms;i>0;i--)
+  14   1         for(j=110;j>0;j--);
+  15   1      }
+  16          
+  17          void display(uchar num)
+  18          {
+  19   1         P0=table[num];
+  20   1      }
+  21          
+  22          void matrixkeyscan()
+  23          {
+  24   1        uchar temp,key;
+  25   1        P1=0xfe;
+  26   1        temp=P1;
+  27   1        temp=temp&0xf0;
+  28   1        if(temp!=0xf0)
+  29   1        {
+  30   2          delayms(10);
+  31   2      	temp=P1;
+  32   2      	temp=temp&0xf0;
+  33   2         if(temp!=0xf0)
+  34   2          {
+  35   3              temp=P1;
+  36   3          	switch(temp)
+  37   3             	{
+  38   4      	      case 0xee:
+  39   4       	         key=0;
+  40   4      	     	 break;
+  41   4      	      case 0xde:
+  42   4      	         key=1;
+  43   4      	    	 break;
+  44   4      	      case 0xbe:
+  45   4      	         key=2;
+  46   4      	    	 break;
+  47   4      	      case 0x7e:
+  48   4      	         key=3;
+  49   4      	    	 break;
+  50   4          	 }
+  51   3       	   while(temp!=0xf0)
+  52   3      	   {
+  53   4      	        temp=P1;
+  54   4      	    	temp=temp&0xf0;
+  55   4      	   }
+C51 COMPILER V6.12  _____ü__                                                               07/02/2016 16:08:51 PAGE 2   
+
+  56   3      	  display(key);
+  57   3           }
+  58   2        }
+  59   1      	P1=0xfd;
+  60   1      	temp=P1;
+  61   1      	temp=temp&0xf0;
+  62   1      	if(temp!=0xf0)
+  63   1      	{
+  64   2      	  delayms(10);
+  65   2      	  temp=P1;
+  66   2      	  temp=temp&0xf0;
+  67   2      	  if(temp!=0xf0)
+  68   2      	  {
+  69   3      	    temp=P1;
+  70   3      		switch(temp)
+  71   3      		{
+  72   4      		  case 0xed:
+  73   4      		     key=4;
+  74   4                   break;
+  75   4      		  case 0xdd:
+  76   4      		     key=5;
+  77   4      			 break;
+  78   4      		  case 0xbd:
+  79   4      		     key=6;
+  80   4      			 break;
+  81   4      		  case 0x7d:
+  82   4      	         key=7;
+  83   4      			 break;
+  84   4      	    }
+  85   3      	   while(temp!=0xf0)
+  86   3      	   {
+  87   4      	     temp=P1;
+  88   4      		 temp=temp&0xf0;
+  89   4      	   }
+  90   3      	   display(key);
+  91   3      	  }
+  92   2      	}
+  93   1      	P1=0xfb;
+  94   1      	temp=P1;
+  95   1      	temp=temp&0xf0;
+  96   1      	if(temp!=0xf0)
+  97   1      	{
+  98   2      	  delayms(10);
+  99   2      	  temp=P1;
+ 100   2      	  temp=temp&0xf0;
+ 101   2      	  if(temp!=0xf0)
+ 102   2      	  {
+ 103   3      	    temp=P1;
+ 104   3      		switch(temp)
+ 105   3      		{
+ 106   4      		  case 0xeb:
+ 107   4      		      key=8;
+ 108   4      			  break;
+ 109   4      		  case 0xdb:
+ 110   4      		      key=9;
+ 111   4      			  break;
+ 112   4      		  case 0xbb:
+ 113   4      		      key=10;
+ 114   4      			  break;
+ 115   4      		  case 0x7b:
+ 116   4      		      key=11;
+ 117   4      			  break;
+C51 COMPILER V6.12  _____ü__                                                               07/02/2016 16:08:51 PAGE 3   
+
+ 118   4      		 }
+ 119   3      		 while(temp!=0xf0)
+ 120   3      		 {
+ 121   4      		   temp=P1;
+ 122   4      		   temp=temp&0xf0;
+ 123   4      		 }
+ 124   3      		 display(key);
+ 125   3      		 }
+ 126   2      		}
+ 127   1      		P1=0xf7;
+ 128   1      		temp=P1;
+ 129   1      		temp=temp&0xf0;
+ 130   1      		if(temp!=0xf0)
+ 131   1      		{
+ 132   2      		  delayms(10);
+ 133   2      		  temp=P1;
+ 134   2      		  temp=temp&0xf0;
+ 135   2      		  if(temp!=0xf0)
+ 136   2      		  {
+ 137   3      		    temp=P1;
+ 138   3      			switch(temp)
+ 139   3      			{
+ 140   4      			   case 0xe7:
+ 141   4      			       key=12;
+ 142   4      				   break;
+ 143   4      			   case 0xd7:
+ 144   4      			       key=13;
+ 145   4      				   break;
+ 146   4      			   case 0xb7:
+ 147   4      			       key=14;
+ 148   4      				   break;
+ 149   4      			   case 0x77:
+ 150   4      			       key=15;
+ 151   4      				   break;
+ 152   4      			 }
+ 153   3      			while(temp!=0xf0)
+ 154   3      			{
+ 155   4      			   temp=P1;
+ 156   4      			   temp=temp&0xf0;
+ 157   4      			}
+ 158   3      			display(key);
+ 159   3      		  }
+ 160   2             }
+ 161   1      }
+ 162          
+ 163          void main()
+ 164          {
+ 165   1      
+ 166   1        P0=0;
+ 167   1        P2=0x00;
+ 168   1        while(1)
+ 169   1        {
+ 170   2          matrixkeyscan();
+ 171   2        }
+ 172   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    405    ----
+   CONSTANT SIZE    =     16    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+C51 COMPILER V6.12  _____ü__                                                               07/02/2016 16:08:51 PAGE 4   
+
+   DATA SIZE        =   ----       2
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

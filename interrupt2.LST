@@ -1,0 +1,178 @@
+C51 COMPILER V6.12  INTERRUPT2                                                             07/01/2016 17:58:31 PAGE 1   
+
+
+C51 COMPILER V6.12, COMPILATION OF MODULE INTERRUPT2
+OBJECT MODULE PLACED IN .\interrupt2.OBJ
+COMPILER INVOKED BY: F:\keil\C51\BIN\C51.EXE .\interrupt2.c DEBUG OBJECTEXTEND
+
+stmt level    source
+
+   1          #include<reg51.h>
+   2          #define uchar unsigned char
+   3          #define uint unsigned int
+   4          sbit dula=P2^6;
+   5          sbit wela=P2^7;
+   6          sbit led=P2^5;
+   7          
+   8          uchar code table[]={
+   9          0x3f,0x06,0x5b,0x4f,0x66,0x6d,
+  10          0x7d,0x07,0x7f,0x6f,0x77,0x7c,
+  11          0x39,0x5e,0x79,0x71};
+  12          void delayms(uint);
+  13          void display(uchar,uchar,uchar,uchar,uchar,uchar);
+  14          uchar num,num1,num2,num3,num4,m,s,h1,h2,h3,h4;
+  15          void main()
+  16          {
+  17   1       TMOD =0x11;
+  18   1       TH0=(65536-45872)/256;
+  19   1       TL0=(65536-45872)%256;
+  20   1       TH1=(65536-45872)/256;
+  21   1       TL1=(65536-45872)%256;
+  22   1       EA=1;
+  23   1       ET0=1;
+  24   1       ET1=1;
+  25   1       TR0=1;
+  26   1       TR1=1;
+  27   1      
+  28   1       while(1)
+  29   1          display(m,s,h1,h2,h3,h4);
+  30   1      }
+  31          
+  32          void display(uchar m,uchar s,uchar h1,uchar h2,uchar h3,uchar h4)
+  33          {
+  34   1        wela=1;
+  35   1        P1=0xbf;
+  36   1        wela=0;
+  37   1        dula=1;
+  38   1        P0=table[m];
+  39   1        dula=0;
+  40   1        delayms(3);
+  41   1        
+  42   1        wela=1;
+  43   1        P1=0x7f;
+  44   1        wela=0;
+  45   1        dula=1;
+  46   1        P0=table[s];
+  47   1        dula=1;
+  48   1        delayms(3);
+  49   1      
+  50   1       wela=1;
+  51   1        P1=0xdf;
+  52   1        wela=0;
+  53   1        dula=1;
+  54   1        P0=0x40;
+  55   1        dula=0;
+C51 COMPILER V6.12  INTERRUPT2                                                             07/01/2016 17:58:31 PAGE 2   
+
+  56   1        delayms(3);
+  57   1      
+  58   1         wela=1;
+  59   1        P1=0xf7;
+  60   1        wela=0;
+  61   1        dula=1;
+  62   1        P0=table[h1];
+  63   1        dula=0;
+  64   1        delayms(3);
+  65   1        
+  66   1        wela=1;
+  67   1        P1=0xef;
+  68   1        wela=0;
+  69   1        dula=1;
+  70   1        P0=table[h2];
+  71   1        dula=0;
+  72   1        delayms(3);
+  73   1      
+  74   1       wela=1;
+  75   1        P1=0xfb;
+  76   1        wela=0;
+  77   1        dula=1;
+  78   1        P0=0x40;
+  79   1        dula=0;
+  80   1        delayms(3);
+  81   1      
+  82   1         wela=1;
+  83   1        P1=0xfd;
+  84   1        wela=0;
+  85   1        dula=1;
+  86   1        P0=table[h3];
+  87   1        dula=0;
+  88   1        delayms(3);
+  89   1        
+  90   1        wela=1;
+  91   1        P1=0xfe;
+  92   1        wela=0;
+  93   1        dula=1;
+  94   1        P0=table[h4];
+  95   1        dula=0;
+  96   1        delayms(3);
+  97   1      
+  98   1       
+  99   1        
+ 100   1      }
+ 101          
+ 102          void delayms(uint xms)
+ 103          {
+ 104   1       uint i,j;
+ 105   1       for(i=xms;i>0;i--)
+ 106   1       for(j=110;j>0;j--);
+ 107   1      }
+ 108          
+ 109          void T0_time() interrupt 1
+ 110          {
+ 111   1        TH0=(65536-45872)/256;
+ 112   1        TL0=(65536-45872)%256;
+ 113   1        num1++;
+ 114   1        if(num1==10)
+ 115   1        {
+ 116   2          num1=0;
+ 117   2      	led=~led;
+C51 COMPILER V6.12  INTERRUPT2                                                             07/01/2016 17:58:31 PAGE 3   
+
+ 118   2        }
+ 119   1      }
+ 120          
+ 121          void T1_time() interrupt 3
+ 122          {
+ 123   1        TH1=(65536-45872)/256;
+ 124   1        TL1=(65536-45872)%256;
+ 125   1        num2++;
+ 126   1        if(num2==20)
+ 127   1        {
+ 128   2          num2=0;
+ 129   2      	num++;
+ 130   2      
+ 131   2      	if(num==60)
+ 132   2             {
+ 133   3              num=0;
+ 134   3              num3++;
+ 135   3            }
+ 136   2          if(num3==60)
+ 137   2           {
+ 138   3      	   num3=0;
+ 139   3      	   num4++;
+ 140   3      	 }
+ 141   2      	 if(num4==24)
+ 142   2      	 num4=0;
+ 143   2      
+ 144   2         m=(num/10)%10;
+ 145   2         s=num%10;
+ 146   2         h1=(num3/10)%10;
+ 147   2         h2=num3%10;
+ 148   2         h4=(num4/10)%10;
+ 149   2         h3=num4%10;
+ 150   2        }
+ 151   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    364    ----
+   CONSTANT SIZE    =     16    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     11       6
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

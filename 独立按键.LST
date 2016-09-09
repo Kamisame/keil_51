@@ -1,0 +1,143 @@
+C51 COMPILER V6.12  _____´_ü                                                               07/02/2016 16:02:37 PAGE 1   
+
+
+C51 COMPILER V6.12, COMPILATION OF MODULE _____´_ü
+OBJECT MODULE PLACED IN .\¶ÀÁ¢°´¼ü.OBJ
+COMPILER INVOKED BY: F:\keil\C51\BIN\C51.EXE .\¶ÀÁ¢°´¼ü.c DEBUG OBJECTEXTEND
+
+stmt level    source
+
+   1          #include<reg51.h>
+   2          #define uchar unsigned char
+   3          #define uint unsigned int
+   4          sbit key1=P1^4;
+   5          sbit key2=P1^5;
+   6          sbit key3=P1^6;
+   7          sbit key4=P1^7;
+   8          
+   9          uchar code table[]={
+  10          0x3f,0x06,0x5b,0x4f,0x66,0x6d,
+  11          0x7d,0x07,0x7f,0x6f,0x77,0x7c,
+  12          0x39,0x5e,0x79,0x71};
+  13          
+  14          void delayms(uint);
+  15          uchar numt0,num;
+  16          void display(uchar numdis)
+  17          {
+  18   1        uchar shi,ge;
+  19   1        shi=numdis/10;
+  20   1        ge=numdis%10;
+  21   1      
+  22   1       
+  23   1        P0=table[shi]; 
+  24   1        P2=0xfd;
+  25   1        delayms(5);
+  26   1        
+  27   1        P0=table[ge]; 
+  28   1        P2=0xfe;
+  29   1        delayms(5);
+  30   1      }
+  31          
+  32          void delayms(uint xms)
+  33          {
+  34   1        uint i,j;
+  35   1        for(i=xms;i>0;i--)
+  36   1        for(j=110;j>0;j--);
+  37   1      }
+  38          
+  39          void init()
+  40          {
+  41   1          TMOD=0x01;
+  42   1      	TH0=(65536-45872)/256;
+  43   1      	TL0=(65536-45872)%256;
+  44   1          EA=1;
+  45   1      	ET0=1;
+  46   1      }
+  47              
+  48          void keyscan()
+  49          {
+  50   1        if(key1==0)
+  51   1        {
+  52   2          delayms(10);
+  53   2      	if(key1==0)
+  54   2      	 {
+  55   3      	   num++;
+C51 COMPILER V6.12  _____´_ü                                                               07/02/2016 16:02:37 PAGE 2   
+
+  56   3      	   if(num==60)
+  57   3      	         num=0;
+  58   3      		 while(!key1);
+  59   3      	  }
+  60   2         }
+  61   1         if(key2==0)
+  62   1         {
+  63   2           delayms(10);
+  64   2      	 if(key2==0)
+  65   2      	 {
+  66   3      	   if(num==0)
+  67   3      	     num=60;
+  68   3      		 num--;
+  69   3      		 while(!key2);
+  70   3      	  }
+  71   2         }
+  72   1        if(key3==0)
+  73   1        {
+  74   2          delayms(10);
+  75   2      	if(key3==0)
+  76   2      	{
+  77   3      	  num=0;
+  78   3      	  while(!key3);
+  79   3      	}
+  80   2        }
+  81   1        if(key4==0)
+  82   1        {
+  83   2         delayms(10);
+  84   2         if(key4==0)
+  85   2          {
+  86   3      	  while(!key4);
+  87   3      	  TR0=~TR0;
+  88   3          }
+  89   2        }
+  90   1      }
+  91          
+  92          void main()
+  93          {
+  94   1        init();
+  95   1        while(1)
+  96   1        {
+  97   2          keyscan(); 
+  98   2      	display(num);
+  99   2        }
+ 100   1      }
+ 101          
+ 102          void T0_time() interrupt 1
+ 103          {
+ 104   1      
+ 105   1         TH0=(65536-45872)/256;
+ 106   1         TL0=(65536-45872)%256;
+ 107   1         numt0++;
+ 108   1        if(numt0==20)
+ 109   1         {
+ 110   2           numt0=0;
+ 111   2      	 num++;
+ 112   2      	 if(num==60)
+ 113   2      	     num=0;
+ 114   2         }
+ 115   1      }
+ 116          
+
+C51 COMPILER V6.12  _____´_ü                                                               07/02/2016 16:02:37 PAGE 3   
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    220    ----
+   CONSTANT SIZE    =     16    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

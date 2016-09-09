@@ -1,0 +1,78 @@
+C51 COMPILER V6.12  1602_º_§                                                               07/20/2016 16:09:56 PAGE 1   
+
+
+C51 COMPILER V6.12, COMPILATION OF MODULE 1602_º_§
+OBJECT MODULE PLACED IN .\1602Òº¾§.OBJ
+COMPILER INVOKED BY: F:\keil\C51\BIN\C51.EXE .\1602Òº¾§.c DEBUG OBJECTEXTEND
+
+stmt level    source
+
+   1          #include<reg52.h>
+   2          #define uchar unsigned char
+   3          #define uint unsigned int
+   4          uchar code table[]="I LOVE MCU";
+   5          uchar code table1[]="WWW.TXMCU.COM";
+   6          sbit lcden=P3^4;
+   7          sbit lcdrs=P3^5;
+   8          uchar num;
+   9          void delay(uint z)
+  10          {
+  11   1         uint x,y;
+  12   1         for(x=z;x>0;x--)
+  13   1           for(y=110;y>0;y--);
+  14   1      }
+  15          
+  16          void write_com(uchar com)
+  17          {
+  18   1        lcdrs=0;
+  19   1        P0=com;
+  20   1        delay(5);
+  21   1        lcdrs=1;
+  22   1        delay(5);
+  23   1        lcden=0;
+  24   1      }
+  25          
+  26          void write_data(uchar date)
+  27          {
+  28   1        lcdrs=1;
+  29   1        P0=date;
+  30   1        delay(5);
+  31   1        lcden=1;
+  32   1        delay(5);
+  33   1        lcden=0;
+  34   1      }
+  35          
+  36          void init()
+  37          {
+  38   1        lcden=0;
+  39   1        write_com(0x38);
+  40   1        write_com(0x0c);
+  41   1        write_com(0x06);
+  42   1        write_com(0x01);
+  43   1      }
+  44          
+  45          void main()
+  46          {
+  47   1        init();
+  48   1        write_com(0x80);
+  49   1        for(num=0;num<11;num++)
+  50   1        {
+  51   2           write_date(table[num]);
+*** WARNING C206 IN LINE 51 OF .\1602Òº¾§.C: 'write_date': missing function-prototype
+*** ERROR C267 IN LINE 51 OF .\1602Òº¾§.C: 'write_date': requires ANSI-style prototype
+  52   2      	 delay(5);
+  53   2        }
+C51 COMPILER V6.12  1602_º_§                                                               07/20/2016 16:09:56 PAGE 2   
+
+  54   1        write_com(0x80+0x40);
+  55   1        for(num=0;num<13;num++)
+  56   1        {
+  57   2          write_date(table1[num]);
+  58   2      	delay(5);
+  59   2        }
+  60   1        while(1);
+  61   1      }
+  62          
+  63            
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  1 ERROR(S)
